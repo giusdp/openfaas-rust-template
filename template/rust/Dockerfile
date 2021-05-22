@@ -1,7 +1,7 @@
-FROM openfaas/classic-watchdog:0.18.0 as watchdog
+FROM openfaas/classic-watchdog:0.20.1 as watchdog
 
 # Build Stage
-FROM rust:1.37.0-alpine AS builder
+FROM rust:1.52.1-alpine AS builder
 
 RUN rustup target add x86_64-unknown-linux-musl
 
@@ -15,7 +15,7 @@ RUN cd main && cargo build --release
 RUN cd main && cargo install --target x86_64-unknown-linux-musl --path .
 
 # Runner stage
-FROM alpine:3.12 as runner 
+FROM alpine:3.13 as runner 
 
 RUN apk --no-cache add curl ca-certificates \
     && addgroup -S app && adduser -S -g app app
